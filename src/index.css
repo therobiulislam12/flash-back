@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap');
+
 *,
 html {
   box-sizing: border-box;
@@ -9,9 +11,14 @@ html {
   padding: 0;
 }
 
-a{
+body {
+  font-family: 'Nunito', sans-serif;
+}
+
+a {
   text-decoration: none;
 }
-ul li{
+
+ul li {
   list-style: none;
 }
