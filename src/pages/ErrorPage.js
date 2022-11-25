@@ -9,7 +9,7 @@ const ErrorPage = () => {
         404 Page Not Found
       </h1>
       <Link to="/">
-        <button className="btn btn-primary rounded shadow-lg">
+        <button className="btn btn-primary rounded shadow-lg bg-[#00E3AA] border-0">
           Go to home
         </button>
       </Link>
