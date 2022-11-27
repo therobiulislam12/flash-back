@@ -1,82 +1,97 @@
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
-import React, { createContext, useEffect, useState } from 'react';
-import app from '../firebase/firebase.init'
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+import React, { createContext, useEffect, useState } from "react";
+import app from "../firebase/firebase.init";
 
 export const AuthContext = createContext();
 
 const auth = getAuth(app);
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
+  // initial state
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    // initial state
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+  // google sign in
+  const googleProvider = new GoogleAuthProvider();
+  const signInGoogle = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
 
-    // google sign in
-    const googleProvider = new GoogleAuthProvider();
-    const signInGoogle = () =>{
-      setLoading(true)
-      return signInWithPopup(auth, googleProvider);
-    }
+  // Email and password sign in
+  const registerUser = (email, password) => {
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
 
+  // email and password login
+  const login = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
-    // Email and password sign in
-    const registerUser = (email, password) =>{
-      setLoading(true)
-      return createUserWithEmailAndPassword(auth, email, password)
-    }
+  // Update user profile
+  const updateUserProfile = (name, photo) => {
+    setLoading(true);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
+  };
 
-    // email and password login
-    const login = (email, password) => {
-      setLoading(true)
-      return signInWithEmailAndPassword(auth,email,password)
-    }
+  // Observe the user
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
 
-    // Update user profile
-    const updateUserProfile = (name, photo) =>{
-      setLoading(true)
-      return updateProfile(auth.currentUser, {displayName: name, photoURL: photo})
-    }
+    return () => unsubscribe();
+  }, []);
 
-    // Observe the user
-    useEffect(()=>{
-      const unsubscribe = onAuthStateChanged(auth, currentUser =>{
-        setUser(currentUser);
-        setLoading(false)
-      })
+  // Sign Out
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
+  //forgot password
+  const forgotPassword = (email) => {
+    setLoading(true);
+    return sendPasswordResetEmail(auth, email);
+  };
 
-      return () => unsubscribe();
-    },[])
-
-    // Sign Out
-    const logOut = () =>{
-      setLoading(true)
-      return signOut(auth);
-    }
-    const forgotPassword = (email) =>{
-      setLoading(true)
-      return sendPasswordResetEmail(auth, email)
+  // verify account
+  const verifyAccount = () =>{
+    return sendEmailVerification(auth.currentUser)
   }
 
-
-
-    // Provide this value
-    const authInfo = {
-        user,
-        setUser,
-        login,
-        logOut,
-        signInGoogle,
-        registerUser,
-        updateUserProfile,
-        loading,
-        forgotPassword
-    };
+  // Provide this value
+  const authInfo = {
+    user,
+    setUser,
+    login,
+    logOut,
+    signInGoogle,
+    registerUser,
+    updateUserProfile,
+    loading,
+    forgotPassword,
+    verifyAccount
+  };
   return (
-    <AuthContext.Provider value={authInfo}>
-        {children}
-    </AuthContext.Provider>
-  )
-}
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
+};
 
-export default AuthProvider
+export default AuthProvider;

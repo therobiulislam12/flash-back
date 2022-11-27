@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 
 const SignUp = () => {
   const [passwordType, setPasswordType] = useState(true);
-  const { registerUser, setUser, updateUserProfile, signInGoogle, loading } =
+  const { registerUser, setUser, updateUserProfile, signInGoogle, loading, user } =
     useContext(AuthContext);
 
   // role state
@@ -47,6 +47,7 @@ const SignUp = () => {
       name: fullName,
       email,
       role,
+      verified: false,
     }
 
     registerUser(data.email, data.password)
