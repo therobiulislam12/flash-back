@@ -31,7 +31,7 @@ const DashboardLayout = () => {
         </div>
         <div className="flex gap-4">
           <Sidebar />
-          <div className="pt-4">
+          <div className="pt-4 flex-1">
             <Outlet />
           </div>
         </div>

@@ -45,7 +45,7 @@ const Header = () => {
                 {user?.email ? (
                   <>
                     <p className="text-xl font-bold border border-red-500 px-4 py-1 rounded-lg cursor-pointer hover:border-green-500 hover:bg-green-500 hover:text-white">
-                      {user?.displayName.split(" ")[0]}
+                      {user?.displayName?.split(" ")[0]}
                     </p>
                     <button
                       className="py-2 px-4 text-white font-semibold bg-teal-600 rounded hover:bg-teal-700"
