@@ -9,6 +9,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import ProductCategories from "../pages/ProductCategories";
 import SignUp from "../pages/SignUp";
+import PrivateRoutes from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
             },
             {
                 path:'/category/:categoryName',
-                element: <ProductCategories/>
+                element: <PrivateRoutes><ProductCategories/></PrivateRoutes>
             },
             {
                 path:'/login',

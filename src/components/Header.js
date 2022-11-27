@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
 import { Link, NavLink } from "react-router-dom";
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
 
   const navItems = [
     ["Home", "/"],
@@ -32,18 +34,33 @@ const Header = () => {
                     key={index}
                     className={({ isActive }) =>
                       isActive
-                      ? "rounded-lg px-3 py-2 font-medium bg-teal-300 text-slate-900"
-                      : "rounded-lg px-3 py-2  text-slate-700 font-medium hover:bg-teal-300 hover:text-black my-1"
+                        ? "rounded-lg px-3 py-2 font-medium bg-teal-300 text-slate-900"
+                        : "rounded-lg px-3 py-2  text-slate-700 font-medium hover:bg-teal-300 hover:text-black my-1"
                     }
                   >
                     {title}
                   </NavLink>
                 ))}
-                <Link to="/login">
-                  <button className="py-2 px-4 text-white font-semibold bg-red-600 rounded hover:bg-red-700">
-                    Login
-                  </button>
-                </Link>
+                {user?.email && <NavLink to={"/dashboard"}>Dashboard</NavLink>}
+                {user?.email ? (
+                  <>
+                    <p className="text-xl font-bold border border-red-500 px-4 py-1 rounded-lg cursor-pointer hover:border-green-500 hover:bg-green-500 hover:text-white">
+                      {user?.displayName.split(" ")[0]}
+                    </p>
+                    <button
+                      className="py-2 px-4 text-white font-semibold bg-teal-600 rounded hover:bg-teal-700"
+                      onClick={logOut}
+                    >
+                      Log Out
+                    </button>
+                  </>
+                ) : (
+                  <Link to="/login">
+                    <button className="py-2 px-4 text-white font-semibold bg-red-600 rounded hover:bg-red-700">
+                      Login
+                    </button>
+                  </Link>
+                )}
               </nav>
             </div>
 
@@ -72,8 +89,8 @@ const Header = () => {
                     onClick={() => setIsOpen(false)}
                     className={({ isActive }) =>
                       isActive
-                      ? "rounded-lg px-3 py-2 font-medium bg-teal-300 text-slate-900"
-                      : "rounded-lg px-3 py-2 text-slate-700 font-medium hover:bg-teal-300 hover:text-black my-1"
+                        ? "rounded-lg px-3 py-2 font-medium bg-teal-300 text-slate-900"
+                        : "rounded-lg px-3 py-2 text-slate-700 font-medium hover:bg-teal-300 hover:text-black my-1"
                     }
                   >
                     {title}
