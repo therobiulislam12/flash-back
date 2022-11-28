@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { FaRegWindowClose } from "react-icons/fa";
 import { AuthContext } from "../contexts/AuthProvider";
 
-const BookingModal = ({ category: product, setBookings }) => {
+const AdvertisementOrderModal = ({ product, setProduct, setAdvertisementItems, advertisementItems }) => {
   const { user } = useContext(AuthContext);
 
   const [role, setRole] = useState("");
@@ -17,10 +17,8 @@ const BookingModal = ({ category: product, setBookings }) => {
     });
   }, [user?.email]);
 
-  const { productName, price, sellerEmail, sellerName, mobileNumber
-  } = product;
-
-
+  const { productName, price, sellerEmail, sellerName, mobileNumber, 
+    productId } = product;
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -36,7 +34,7 @@ const BookingModal = ({ category: product, setBookings }) => {
       ...data,
     };
 
-    fetch("http://localhost:5000/buy", {
+    fetch(`http://localhost:5000/deleteAndPost?productId=${productId}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -47,16 +45,17 @@ const BookingModal = ({ category: product, setBookings }) => {
       .then((data) => {
         if (data.acknowledged) {
           toast.success("Your Order Place Done!!!");
+          toast.success("Advertisement sold and remove!!!")
+          const remainsAds = advertisementItems.filter(ads => ads.productId !== productId);
+          setAdvertisementItems(remainsAds)
         }
       });
-
 
     // Reset form
     reset();
     // Modal Close Here
-    setBookings(null);
+    setProduct(null);
   };
-
 
   return (
     <>
@@ -140,4 +139,4 @@ const BookingModal = ({ category: product, setBookings }) => {
   );
 };
 
-export default BookingModal;
+export default AdvertisementOrderModal;
