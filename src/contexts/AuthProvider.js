@@ -71,11 +71,6 @@ const AuthProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   };
 
-  // verify account
-  const verifyAccount = () =>{
-    return sendEmailVerification(auth.currentUser)
-  }
-
   // Provide this value
   const authInfo = {
     user,
@@ -87,7 +82,6 @@ const AuthProvider = ({ children }) => {
     updateUserProfile,
     loading,
     forgotPassword,
-    verifyAccount
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

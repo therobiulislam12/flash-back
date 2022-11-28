@@ -4,6 +4,7 @@ import Main from "../layouts/Main";
 import Blogs from "../pages/Blogs";
 import AddAProduct from "../pages/Dashboard/AddAProduct";
 import AllProducts from "../pages/Dashboard/AllProducts";
+import AllSeller from "../pages/Dashboard/AllSeller";
 import AllUsers from "../pages/Dashboard/AllUsers";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ReportedItems from "../pages/Dashboard/ReportedItems";
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/reported',
                 element: <ReportedItems/>,
+            },
+            {
+                path: '/dashboard/all-seller',
+                element: <AllSeller/>,
             },
         ]
     }

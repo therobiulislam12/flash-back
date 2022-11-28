@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-const AllUsers = () => {
+const AllSeller = () => {
   const {
     data: users = [],
     refetch,
@@ -35,7 +35,6 @@ const AllUsers = () => {
       </div>
     );
   }
-
   return (
     <section className="px-12 py-8 ">
       <table className="table w-full">
@@ -50,34 +49,38 @@ const AllUsers = () => {
         </thead>
         <tbody>
           {users.length > 0 &&
-            users.filter(user => user.role ==='user').map((user, index) => (
-              <tr className="hover" key={index}>
-                <th>{index + 1}</th>
-                <td>{user?.name}</td>
-                <td>{user?.email}</td>
-                <td>
-                  <div
-                    className={`badge ${
-                      user?.role === "user" ? "badge-secondary" : "badge-accent"
-                    }`}
-                  >
-                    {user?.role}
-                  </div>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-xs"
-                    onClick={() => handleDeleteUser(user._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            users
+              .filter((user) => user.role === "seller")
+              .map((user, index) => (
+                <tr className="hover" key={index}>
+                  <th>{index + 1}</th>
+                  <td>{user?.name}</td>
+                  <td>{user?.email}</td>
+                  <td>
+                    <div
+                      className={`badge ${
+                        user?.role === "user"
+                          ? "badge-secondary"
+                          : "badge-accent"
+                      }`}
+                    >
+                      {user?.role}
+                    </div>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-xs"
+                      onClick={() => handleDeleteUser(user._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </table>
     </section>
   );
 };
 
-export default AllUsers;
+export default AllSeller;

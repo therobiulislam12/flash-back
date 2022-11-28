@@ -1,19 +1,21 @@
-import { useContext } from "react";
+import { isAdmin } from "@firebase/util";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Sidebar = () => {
-  const { user, verifyAccount } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const [role, setRole] = useState("");
 
-  const handleVerify = () => {
-    verifyAccount()
-      .then(() => {
-        toast.success("Please check your mail");
-        updateProfile();
-      })
-      .catch((err) => toast.error(err.message));
-  };
+  // get user role
+  useEffect(() => {
+    axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
+      console.log(user.data);
+      setRole(user.data[0]?.role);
+    });
+  }, [user?.email]);
 
   const updateProfile = () => {
     fetch(`http://localhost:5000/userUpdate?email=${user?.email}`)
@@ -32,31 +34,42 @@ const Sidebar = () => {
           </div>
         </div>
         <h2 className="text-2xl font-bold">{user?.displayName}</h2>
-        <p className="text-lg text-gray-400">Role : Seller</p>
+        <p className="text-lg text-gray-400">Role : {role}</p>
         {user?.emailVerified ? (
           <div className={`badge badge-accent`}>Verified</div>
         ) : (
-          <button className="badge badge-primary" onClick={handleVerify}>
-            Verify please
-          </button>
+          <button className="badge badge-primary">Verify please</button>
         )}
       </div>
       <ul className="menu bg-base-100">
         <li>
           <Link to="/dashboard">Dashboard</Link>
         </li>
-        <li>
-          <Link to="/dashboard/all-users">ALl Buyers</Link>
-        </li>
-        <li>
-          <Link to="/dashboard/add-product">Add a Product</Link>
-        </li>
-        <li>
-          <Link to="/dashboard/all-products">All Products</Link>
-        </li>
-        <li>
-          <Link to="/dashboard/reported">Reported Items</Link>
-        </li>
+        {role === "admin" && (
+          <>
+            <li>
+              <Link to="/dashboard/all-users">All Buyers</Link>
+            </li>
+            <li>
+              <Link to="/dashboard/all-seller">All Sellers</Link>
+            </li>
+            <li>
+              <Link to="/dashboard/reported">Reported Items</Link>
+            </li>
+          </>
+        )}
+
+        {role !== "admin" && (
+          <>
+            <li>
+              <Link to="/dashboard/add-product">Add a Product</Link>
+            </li>
+            <li>
+              <Link to="/dashboard/all-products">All Products</Link>
+            </li>
+          </>
+        )}
+
         <button className="btn mt-6">
           <Link to="/">Go to Home</Link>
         </button>

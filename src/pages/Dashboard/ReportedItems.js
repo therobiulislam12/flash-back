@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const ReportedItems = () => {
   const [reportedItems, setReportedItems] = useState([]);
@@ -11,6 +12,22 @@ const ReportedItems = () => {
       setLoading(false);
     });
   }, []);
+
+  const handleDeleteReported = (id) => {
+    fetch(`http://localhost:5000/reportedItem/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          toast.success("Reported remove and solve successfully");
+          const remainingItems = reportedItems.filter(
+            (item) => item._id !== id
+          );
+          setReportedItems(remainingItems)
+        }
+      });
+  };
 
   if (loading) {
     return (
@@ -41,7 +58,7 @@ const ReportedItems = () => {
                 <td>{item?.sellerName}</td>
                 <td>{item?.postedTime}</td>
                 <td>
-                  <button className="btn btn-xs btn-error">Delete</button>
+                  <button className="btn btn-xs btn-error" onClick={() => handleDeleteReported(item._id)}>Delete</button>
                 </td>
               </tr>
             ))}
