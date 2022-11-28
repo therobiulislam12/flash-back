@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const MyOrders = () => {
@@ -32,9 +33,7 @@ const MyOrders = () => {
         }
       });
   };
-  const handlePaid = () =>{
 
-  }
   if (loading) {
     return (
       <div className="text-center py-20">
@@ -60,37 +59,28 @@ const MyOrders = () => {
         <tbody>
           {orders.length > 0 &&
             orders.map((order, index) => (
-                <tr className="hover" key={index}>
-                  <th>{index + 1}</th>
-                  <td>{order?.productName}</td>
-                  <td>$ {order?.productPrice}</td>
-                  <td>
-                    {order?.meetingLocation}
-                  </td>
-                  <td>
-                    {order?.sellerName}
-                  </td>
-                  <td>
-                    {order?.sellerEmail}
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-xs"
-                      onClick={() => handleDeleteOrder(order._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                  <td>
+              <tr className="hover" key={index}>
+                <th>{index + 1}</th>
+                <td>{order?.productName}</td>
+                <td>$ {order?.productPrice}</td>
+                <td>{order?.meetingLocation}</td>
+                <td>{order?.sellerName}</td>
+                <td>{order?.sellerEmail}</td>
+                <td>
                   <button
-                      className="btn btn-xs btn-success"
-                      onClick={() => handlePaid(order._id)}
-                    >
-                      Pay
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    className="btn btn-xs"
+                    onClick={() => handleDeleteOrder(order._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+                <td>
+                  <Link to={`/dashboard/payment/${order._id}`}>
+                    <button className="btn btn-xs btn-success">Pay</button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </section>

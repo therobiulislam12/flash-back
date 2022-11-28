@@ -1,12 +1,14 @@
 import { initializeApp } from "firebase/app";
 
+// console.log(process.env.REACT_APP_APIKEY, process.env.REACT_APP_AUTHDOMAIN)
+
 const firebaseConfig = {
-  apiKey: "AIzaSyApfkgwwA956xrOVkx4mhyQzKUbrPkXLPU",
-  authDomain: "flash-back-48eb7.firebaseapp.com",
-  projectId: "flash-back-48eb7",
-  storageBucket: "flash-back-48eb7.appspot.com",
-  messagingSenderId: "1075170645715",
-  appId: "1:1075170645715:web:dfd19f920aa12496cb6626"
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_PROJECTID,
+  appId: process.env.REACT_APP_APPID
 };
 
 // Initialize Firebase

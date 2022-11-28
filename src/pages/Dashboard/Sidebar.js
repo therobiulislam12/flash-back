@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Sidebar = () => {
-  const { user, exitsUser } = useContext(AuthContext);
+  const { user, exitsUser, loading } = useContext(AuthContext);
+  
+  if (loading) {
+    return (
+      <div className="text-center py-20">
+        <h1 className="text-3xl">Loading....</h1>
+      </div>
+    );
+  }
   const { role, verified: isVerified } = exitsUser[0];
 
   return (
