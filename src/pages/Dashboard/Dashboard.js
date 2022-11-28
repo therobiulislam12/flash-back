@@ -9,14 +9,13 @@ const Dashboard = () => {
   // get user role
   useEffect(() => {
     axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
-      console.log(user.data);
-      setRole(user.data[0]?.role);
+      setRole(user?.data[0]?.role.toUpperCase());
     });
   }, [user?.email]);
 
   return (
     <div>
-      <h1 className="text-5xl">Welcome to <span className='font-bold text-green-500'>{role.toUpperCase()}</span> Dashboard</h1>
+      <h1 className="text-5xl">Welcome to <span className='font-bold text-green-500'>{role}</span> Dashboard</h1>
     </div>
   )
 }

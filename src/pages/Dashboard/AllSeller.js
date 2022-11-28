@@ -28,6 +28,19 @@ const AllSeller = () => {
       });
   };
 
+  const handleVerifyUser = (email) =>{
+    fetch(`http://localhost:5000/userUpdate?email=${email}`, {
+      method: "PUT"
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.modifiedCount > 0){
+        toast.success('User verified done!!!');
+        refetch()
+      }
+    })
+  }
+
   if (loading) {
     return (
       <div className="text-center py-20">
@@ -43,6 +56,7 @@ const AllSeller = () => {
             <th>SL</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Verify Seller</th>
             <th>Role</th>
             <th>Action</th>
           </tr>
@@ -56,6 +70,14 @@ const AllSeller = () => {
                   <th>{index + 1}</th>
                   <td>{user?.name}</td>
                   <td>{user?.email}</td>
+                  <td>
+                    <button
+                      className={`btn btn-xs btn-success ${user?.verified && 'btn-disabled' }`}
+                      onClick={() => handleVerifyUser(user?.email)}
+                    >
+                      Verify
+                    </button>
+                  </td>
                   <td>
                     <div
                       className={`badge ${
