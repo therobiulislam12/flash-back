@@ -1,21 +1,10 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Sidebar = () => {
-  const { user } = useContext(AuthContext);
-  const [role, setRole] = useState("");
-  const [isVerified, setIsVerified] = useState(null);
-
-
-  // get user role
-  useEffect(() => {
-    axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
-      setRole(user.data[0]?.role);
-      setIsVerified(user.data[0]?.verified);
-    });
-  }, [user?.email]);
+  const { user, exitsUser } = useContext(AuthContext);
+  const { role, verified: isVerified } = exitsUser[0];
 
   return (
     <div className="bg-white border-r w-full lg:w-72 h-screen p-6 hidden lg:block ">
@@ -32,7 +21,9 @@ const Sidebar = () => {
         {isVerified ? (
           <div className={`badge badge-accent`}>Verified</div>
         ) : (
-          role !== 'user' && <button className="badge badge-primary">Verify please</button>
+          role !== "user" && (
+            <button className="badge badge-primary">Verify please</button>
+          )
         )}
       </div>
       <ul className="menu bg-base-100">

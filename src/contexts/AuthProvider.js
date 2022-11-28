@@ -3,7 +3,6 @@ import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
-  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -21,6 +20,7 @@ const AuthProvider = ({ children }) => {
   // initial state
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [exitsUser, setExitsUser] = useState("");
 
   // google sign in
   const googleProvider = new GoogleAuthProvider();
@@ -60,6 +60,17 @@ const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  // set role
+  useEffect(() => {
+    setLoading(true);
+    fetch(`http://localhost:5000/users?email=${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setExitsUser(data);
+        setLoading(false);
+      });
+  }, [user?.email]);
+
   // Sign Out
   const logOut = () => {
     setLoading(true);
@@ -75,6 +86,7 @@ const AuthProvider = ({ children }) => {
   const authInfo = {
     user,
     setUser,
+    exitsUser,
     login,
     logOut,
     signInGoogle,

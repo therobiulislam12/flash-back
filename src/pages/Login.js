@@ -12,6 +12,7 @@ const Login = () => {
 
   const { login, setUser, signInGoogle, loading } = useContext(AuthContext);
 
+
   const location = useLocation();
   const navigate = useNavigate();
 

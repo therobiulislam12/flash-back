@@ -14,7 +14,9 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import ProductCategories from "../pages/ProductCategories";
 import SignUp from "../pages/SignUp";
+import AdminRoute from "./AdminRoute";
 import PrivateRoutes from "./PrivateRoute";
+import SellerRoute from "./SellerRoute";
 
 const router = createBrowserRouter([
   {
@@ -63,23 +65,43 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/all-users",
-        element: <AllUsers />,
+        element: (
+          <AdminRoute>
+            <AllUsers />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/add-product",
-        element: <AddAProduct />,
+        element: (
+          <SellerRoute>
+            <AddAProduct />
+          </SellerRoute>
+        ),
       },
       {
         path: "/dashboard/all-products",
-        element: <AllProducts />,
+        element: (
+          <SellerRoute>
+            <AllProducts />
+          </SellerRoute>
+        ),
       },
       {
         path: "/dashboard/reported",
-        element: <ReportedItems />,
+        element: (
+          <AdminRoute>
+            <ReportedItems />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/all-seller",
-        element: <AllSeller />,
+        element: (
+          <AdminRoute>
+            <AllSeller />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/my-orders",

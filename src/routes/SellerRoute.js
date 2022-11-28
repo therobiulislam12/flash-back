@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 
-const AdminRoute = ({ children }) => {
+const SellerRoute = ({ children }) => {
   const { exitsUser, user, loading } = useContext(AuthContext);
 
 
@@ -16,11 +16,11 @@ const AdminRoute = ({ children }) => {
     );
   }
 
-  if (user && exitsUser[0].role === 'admin') {
+  if (user && exitsUser[0].role === 'seller') {
     return children;
   }
 
   return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
 };
 
-export default AdminRoute;
+export default SellerRoute;
