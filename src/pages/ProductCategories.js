@@ -1,61 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Category from "../components/Category";
 import { firstLatterUpperCase } from "../utils/firstLatterUpperCase";
 
-const selectedCategoriesItems = [
-  {
-    _id: 1,
-    name: 'Canon 750D DSLR Camera',
-    pickUpLocation: "Dhaka",
-    price: 150,
-    originalPrice: 750,
-    yearsOfUse: 1,
-    postedTime: "Nov 24, 2022",
-    sellerName: "Robiul Islam",
-    verified: false,
-    image: 'https://www.cameralabs.com/wp-content/uploads/2019/08/canon-eos-90d-hero-1.jpg'
-  },
-  {
-    _id: 2,
-    name: 'Canon 750D DSLR Camera',
-    pickUpLocation: "Dhaka",
-    price: 150,
-    originalPrice: 750,
-    yearsOfUse: 1,
-    postedTime: "Nov 24, 2022",
-    sellerName: "Robiul Islam",
-    verified: true,
-    image: 'https://www.cameralabs.com/wp-content/uploads/2019/08/canon-eos-90d-hero-1.jpg'
-  },
-  {
-    _id: 3,
-    name: 'Canon 750D DSLR Camera',
-    pickUpLocation: "Dhaka",
-    price: 150,
-    originalPrice: 750,
-    yearsOfUse: 1,
-    postedTime: "Nov 24, 2022",
-    sellerName: "Robiul Islam",
-    verified: false,
-    image: 'https://www.cameralabs.com/wp-content/uploads/2019/08/canon-eos-90d-hero-1.jpg'
-  },
-  {
-    _id: 4,
-    name: 'Canon 750D DSLR Camera',
-    pickUpLocation: "Dhaka",
-    price: 250,
-    originalPrice: 550,
-    yearsOfUse: 3,
-    postedTime: "Nov 24, 2022",
-    sellerName: "Robiul Islam",
-    verified: true,
-    image: 'https://www.cameralabs.com/wp-content/uploads/2019/08/canon-eos-90d-hero-1.jpg'
-  },
-]
+
 
 const ProductCategories = () => {
   const { categoryName } = useParams();
+
+  const [products, setProducts] = useState([]);
+  useEffect(() =>{
+    fetch(`http://localhost:5000/products?category=${categoryName}`)
+    .then(res => res.json())
+    .then(data => setProducts(data))
+  },[categoryName])
 
   const categoryUpdateName =
     firstLatterUpperCase(categoryName.split("-")[0]) +
@@ -73,7 +31,7 @@ const ProductCategories = () => {
       </h2>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {
-          selectedCategoriesItems.map(selectedCategory => <Category key={selectedCategory._id} category={selectedCategory} showSelectedCategory/>)
+          products.map(selectedCategory => <Category key={selectedCategory._id} category={selectedCategory} showSelectedCategory/>)
         }
       </div>
     </div>

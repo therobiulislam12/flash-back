@@ -7,6 +7,7 @@ const Category = ({ category, showSelectedCategory }) => {
   const {
     name,
     image,
+    productName,
     pickUpLocation,
     price,
     originalPrice,
@@ -28,7 +29,7 @@ const Category = ({ category, showSelectedCategory }) => {
       />
       <div className={`${showSelectedCategory ? "text-left" : "text-center"} `}>
         <h2 className="text-2xl font-semibold">
-          {name} {!showSelectedCategory && "Cameras"}
+          {name} {!showSelectedCategory && "Cameras"} {!name && productName}
         </h2>
         {showSelectedCategory && (
           <>

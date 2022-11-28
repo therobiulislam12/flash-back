@@ -5,6 +5,7 @@ import { AuthContext } from "../../contexts/AuthProvider";
 
 const AddAProduct = () => {
   const [loading, setLoading] = useState(false);
+  const [category, setCategory] = useState("");
   const { user } = useContext(AuthContext);
 
   const {
@@ -15,9 +16,11 @@ const AddAProduct = () => {
   } = useForm();
 
   const handleAddProduct = (data) => {
+    console.log(data)
     const productDetails = {
       ...data,
       sellerName: user?.displayName,
+      sellerEmail: user?.email,
       verified: user?.emailVerified,
       time: new Date().toLocaleDateString("en-us", {
         month: "short",
@@ -35,8 +38,8 @@ const AddAProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if(data.acknowledged){
-            toast.success('Product added successfully!!!')
+        if (data.acknowledged) {
+          toast.success("Product added successfully!!!");
         }
       });
 
@@ -114,6 +117,24 @@ const AddAProduct = () => {
               {errors.price?.message}
             </p>
           )}
+        </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Please select a category</span>
+          </label>
+          <select
+            className="select select-bordered w-full"
+            {...register("category")}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="dslr-cameras">
+              DSLR Cameras
+            </option>
+            <option value="film-cameras">Film Cameras</option>
+            <option value="360-cameras">360 Cameras</option>
+            <option value="action-cameras">Action Cameras</option>
+          </select>
         </div>
         <div className="form-control w-full">
           <label className="label">

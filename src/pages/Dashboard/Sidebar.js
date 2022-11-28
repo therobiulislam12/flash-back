@@ -41,6 +41,9 @@ const Sidebar = () => {
         <li>
           <Link to="/dashboard/add-product">Add a Product</Link>
         </li>
+        <li>
+          <Link to="/dashboard/all-products">All Products</Link>
+        </li>
       </ul>
     </div>
   );
