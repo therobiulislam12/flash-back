@@ -8,6 +8,7 @@ const Sidebar = () => {
   const [role, setRole] = useState("");
   const [isVerified, setIsVerified] = useState(null);
 
+
   // get user role
   useEffect(() => {
     axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
@@ -31,7 +32,7 @@ const Sidebar = () => {
         {isVerified ? (
           <div className={`badge badge-accent`}>Verified</div>
         ) : (
-          <button className="badge badge-primary">Verify please</button>
+          role !== 'user' && <button className="badge badge-primary">Verify please</button>
         )}
       </div>
       <ul className="menu bg-base-100">
@@ -59,7 +60,7 @@ const Sidebar = () => {
           </>
         )}
 
-        {role !== "admin" && (
+        {role === "seller" && (
           <>
             <li>
               <Link to="/dashboard/add-product">Add a Product</Link>

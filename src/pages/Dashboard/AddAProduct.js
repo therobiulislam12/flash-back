@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthProvider";
@@ -7,6 +8,15 @@ const AddAProduct = () => {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("");
   const { user } = useContext(AuthContext);
+  const [isVerified, setIsVerified] = useState(null);
+
+
+  // get user role
+  useEffect(() => {
+    axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
+      setIsVerified(user.data[0]?.verified);
+    });
+  }, [user?.email]);
 
   const {
     register,
@@ -16,12 +26,12 @@ const AddAProduct = () => {
   } = useForm();
 
   const handleAddProduct = (data) => {
-    console.log(data)
+    setLoading(true);
     const productDetails = {
       ...data,
       sellerName: user?.displayName,
       sellerEmail: user?.email,
-      verified: user?.emailVerified,
+      verified: isVerified,
       time: new Date().toLocaleDateString("en-us", {
         month: "short",
         day: "numeric",
@@ -39,6 +49,7 @@ const AddAProduct = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.acknowledged) {
+          setLoading(false);
           toast.success("Product added successfully!!!");
         }
       });
@@ -64,6 +75,40 @@ const AddAProduct = () => {
           {errors.productName && (
             <p role="alert" className="text-red-500 mt-2">
               {errors.productName?.message}
+            </p>
+          )}
+        </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Condition</span>
+          </label>
+          <input
+            type="text"
+            className="input input-bordered w-full"
+            {...register("condition", {
+              required: "Please provide location",
+            })}
+          />
+          {errors.condition && (
+            <p role="alert" className="text-red-500 mt-2">
+              {errors.condition?.message}
+            </p>
+          )}
+        </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Mobile Number</span>
+          </label>
+          <input
+            type="text"
+            className="input input-bordered w-full"
+            {...register("mobileNumber", {
+              required: "Please provide location",
+            })}
+          />
+          {errors.mobileNumber && (
+            <p role="alert" className="text-red-500 mt-2">
+              {errors.mobileNumber?.message}
             </p>
           )}
         </div>
@@ -128,9 +173,7 @@ const AddAProduct = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="dslr-cameras">
-              DSLR Cameras
-            </option>
+            <option value="dslr-cameras">DSLR Cameras</option>
             <option value="film-cameras">Film Cameras</option>
             <option value="360-cameras">360 Cameras</option>
             <option value="action-cameras">Action Cameras</option>
@@ -167,6 +210,23 @@ const AddAProduct = () => {
           {errors.image && (
             <p role="alert" className="text-red-500 mt-2">
               {errors.image?.message}
+            </p>
+          )}
+        </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Description</span>
+          </label>
+          <textarea
+            className="textarea textarea-bordered h-24"
+            placeholder=""
+            {...register("description", {
+              required: "Please Provide a description",
+            })}
+          ></textarea>
+          {errors.description && (
+            <p role="alert" className="text-red-500 mt-2">
+              {errors.description?.message}
             </p>
           )}
         </div>

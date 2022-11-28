@@ -17,67 +17,76 @@ import SignUp from "../pages/SignUp";
 import PrivateRoutes from "./PrivateRoute";
 
 const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Main/>,
-        errorElement: <ErrorPage/>,
-        children: [
-            {
-                path:'/',
-                element: <Home/>
-            },
-            {
-                path:'/blogs',
-                element: <Blogs/>
-            },
-            {
-                path:'/category/:categoryName',
-                element: <PrivateRoutes><ProductCategories/></PrivateRoutes>
-            },
-            {
-                path:'/login',
-                element: <Login/>
-            },
-            {
-                path:'/register',
-                element: <SignUp/>
-            },
-        ]
-    },
-    {
-        path: '/dashboard',
-        element: <DashboardLayout/>,
-        children: [
-            {
-                path: '/dashboard',
-                element: <Dashboard/>
-            },
-            {
-                path: '/dashboard/all-users',
-                element: <AllUsers/>,
-            },
-            {
-                path: '/dashboard/add-product',
-                element: <AddAProduct/>,
-            },
-            {
-                path: '/dashboard/all-products',
-                element: <AllProducts/>,
-            },
-            {
-                path: '/dashboard/reported',
-                element: <ReportedItems/>,
-            },
-            {
-                path: '/dashboard/all-seller',
-                element: <AllSeller/>,
-            },
-            {
-                path: '/dashboard/my-orders',
-                element: <MyOrders/>,
-            },
-        ]
-    }
-])
+  {
+    path: "/",
+    element: <Main />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/blogs",
+        element: <Blogs />,
+      },
+      {
+        path: "/category/:categoryName",
+        element: (
+          <PrivateRoutes>
+            <ProductCategories />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <SignUp />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoutes>
+        {" "}
+        <DashboardLayout />
+      </PrivateRoutes>
+    ),
+    children: [
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/dashboard/all-users",
+        element: <AllUsers />,
+      },
+      {
+        path: "/dashboard/add-product",
+        element: <AddAProduct />,
+      },
+      {
+        path: "/dashboard/all-products",
+        element: <AllProducts />,
+      },
+      {
+        path: "/dashboard/reported",
+        element: <ReportedItems />,
+      },
+      {
+        path: "/dashboard/all-seller",
+        element: <AllSeller />,
+      },
+      {
+        path: "/dashboard/my-orders",
+        element: <MyOrders />,
+      },
+    ],
+  },
+]);
 
 export default router;

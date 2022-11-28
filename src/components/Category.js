@@ -21,6 +21,7 @@ const Category = ({ category, showSelectedCategory, setBookings }) => {
     time,
   } = category;
 
+
   const handleReportItem = (id) => {
     const reportedDetails = {
       reportedProductId: id,
