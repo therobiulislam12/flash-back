@@ -1,16 +1,47 @@
 import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaRegWindowClose } from "react-icons/fa";
 import { AuthContext } from "../contexts/AuthProvider";
 
-const BookingModal = ({ category }) => {
+const BookingModal = ({ category, setBookings }) => {
   const { user } = useContext(AuthContext);
 
-  const { name, price } = category;
+  const { productName, price } = category;
 
-  const handleBooking = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    console.log(e);
+  const handleBooking = (data) => {
+    const bookingData = {
+      buyerName: user?.displayName,
+      buyerEmail: user?.email,
+      productPrice: price,
+      ...data,
+    };
+
+    fetch("http://localhost:5000/buy", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          toast.success("Your Order Place Done!!!");
+        }
+      });
+
+    // Reset form
+    reset();
+    // Modal Close Here
+    setBookings(null);
   };
 
   return (
@@ -19,13 +50,13 @@ const BookingModal = ({ category }) => {
       <div className="modal">
         <div className="modal-box">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-lg">{name}</h3>
+            <h3 className="font-bold text-lg">{productName}</h3>
             <label htmlFor="booking_modal">
               <FaRegWindowClose className="cursor-pointer w-6 h-6" />
             </label>
           </div>
           <form
-            onSubmit={handleBooking}
+            onSubmit={handleSubmit(handleBooking)}
             className="grid grid-cols-1 gap-3 mt-10"
           >
             <input
@@ -54,6 +85,7 @@ const BookingModal = ({ category }) => {
               name="phone"
               type="text"
               placeholder="Phone Number"
+              {...register("buyerPhoneNumber")}
               required
               className="input w-full input-bordered"
             />
@@ -61,6 +93,7 @@ const BookingModal = ({ category }) => {
               name="location"
               type="text"
               placeholder="Meeting Location"
+              {...register("meetingLocation")}
               required
               className="input w-full input-bordered"
             />

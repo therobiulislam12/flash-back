@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import BookingModal from "../components/BookingModal";
 import Category from "../components/Category";
 import { firstLatterUpperCase } from "../utils/firstLatterUpperCase";
 
 
 
 const ProductCategories = () => {
+  const [booking, setBookings] = useState(null)
   const { categoryName } = useParams();
 
   const [products, setProducts] = useState([]);
@@ -31,7 +33,10 @@ const ProductCategories = () => {
       </h2>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {
-          products.map(selectedCategory => <Category key={selectedCategory._id} category={selectedCategory} showSelectedCategory/>)
+          products.map(selectedCategory => <Category key={selectedCategory._id} category={selectedCategory} setBookings={setBookings} showSelectedCategory/>)
+        }
+        {
+          booking && <BookingModal category={booking} setBookings={setBookings}></BookingModal>
         }
       </div>
     </div>

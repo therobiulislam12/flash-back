@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GoVerified } from "react-icons/go";
 import { MdReport } from "react-icons/md";
-import BookingModal from "./BookingModal";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const Category = ({ category, showSelectedCategory }) => {
+const Category = ({ category, showSelectedCategory, setBookings }) => {
   const [exitsItem, setExitsItems] = useState({});
   const {
     _id,
@@ -114,16 +113,12 @@ const Category = ({ category, showSelectedCategory }) => {
               <label
                 htmlFor="booking_modal"
                 className="btn bg-[#00E3AA] hover:bg-[#05d6a2] border-0 "
+                onClick={() => setBookings(category)}
               >
                 Book Now
               </label>
             </div>
 
-            {/* Booking modal */}
-            <BookingModal
-              category={category}
-              showSelectedCategory={showSelectedCategory}
-            />
           </>
         )}
       </div>
