@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const AllProducts = () => {
+  const [exitsItem, setExitsItems] = useState({});
   const { user } = useContext(AuthContext);
+
   const {
     data: products = [],
     refetch,
@@ -33,6 +36,45 @@ const AllProducts = () => {
       });
   };
 
+  const handleAdvertisement = (product) => {
+    const newProduct = {
+      productId: product._id,
+      image: product.image,
+      productName: product.productName,
+      pickUpLocation: product.pickUpLocation,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      yearsOfUse: product.yearsOfUse,
+      sellerName: product.sellerName,
+      verified: product.verified,
+      time: product.time,
+    };
+
+    axios(
+      `http://localhost:5000/advertisementItems?productId=${product._id}`
+    ).then((data) => setExitsItems(data.data[0]));
+
+    if (exitsItem) {
+      if (exitsItem?.productId !== product._id) {
+        fetch("http://localhost:5000/advertiseItem", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newProduct),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.acknowledged) {
+              toast.success("Advertisement success!!!");
+            }
+          });
+      } else {
+        toast.error("You already ads this items");
+      }
+    }
+  };
+
   if (loading) {
     return (
       <div className="text-center py-20">
@@ -50,9 +92,9 @@ const AllProducts = () => {
             <th>Name</th>
             <th>Category</th>
             <th>Location</th>
-            <th>Seller name</th>
             <th>Price</th>
             <th>Action</th>
+            <th>Ads</th>
           </tr>
         </thead>
         <tbody>
@@ -67,14 +109,21 @@ const AllProducts = () => {
                   </div>
                 </td>
                 <td>{product?.pickUpLocation}</td>
-                <td>{product?.sellerName}</td>
                 <td>$ {product?.price}</td>
                 <td>
                   <button
-                    className="btn btn-xs"
+                    className="btn btn-xs btn-error"
                     onClick={() => handleDeleteProduct(product._id)}
                   >
                     Delete
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className={`btn btn-xs btn-success`}
+                    onClick={() => handleAdvertisement(product)}
+                  >
+                    Ads
                   </button>
                 </td>
               </tr>
