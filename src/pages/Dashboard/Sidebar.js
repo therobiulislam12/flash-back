@@ -6,12 +6,20 @@ import { AuthContext } from "../../contexts/AuthProvider";
 const Sidebar = () => {
   const { user, verifyAccount } = useContext(AuthContext);
 
-  const handleVerify = () =>{
+  const handleVerify = () => {
     verifyAccount()
-    .then(() => {
-      toast.success('Please check your mail');
-    }).catch(err => toast.error(err.message))
-  }
+      .then(() => {
+        toast.success("Please check your mail");
+        updateProfile();
+      })
+      .catch((err) => toast.error(err.message));
+  };
+
+  const updateProfile = () => {
+    fetch(`http://localhost:5000/userUpdate?email=${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
 
   return (
     <div className="bg-white border-r w-full lg:w-72 h-screen p-6 hidden lg:block ">
@@ -28,7 +36,9 @@ const Sidebar = () => {
         {user?.emailVerified ? (
           <div className={`badge badge-accent`}>Verified</div>
         ) : (
-          <button className="badge badge-primary" onClick={handleVerify}>Verify please</button>
+          <button className="badge badge-primary" onClick={handleVerify}>
+            Verify please
+          </button>
         )}
       </div>
       <ul className="menu bg-base-100">
@@ -36,7 +46,7 @@ const Sidebar = () => {
           <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>
-          <Link to="/dashboard/all-users">ALl Users</Link>
+          <Link to="/dashboard/all-users">ALl Buyers</Link>
         </li>
         <li>
           <Link to="/dashboard/add-product">Add a Product</Link>
@@ -44,6 +54,12 @@ const Sidebar = () => {
         <li>
           <Link to="/dashboard/all-products">All Products</Link>
         </li>
+        <li>
+          <Link to="/dashboard/reported">Reported Items</Link>
+        </li>
+        <button className="btn mt-6">
+          <Link to="/">Go to Home</Link>
+        </button>
       </ul>
     </div>
   );

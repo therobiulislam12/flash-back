@@ -6,6 +6,7 @@ import AddAProduct from "../pages/Dashboard/AddAProduct";
 import AllProducts from "../pages/Dashboard/AllProducts";
 import AllUsers from "../pages/Dashboard/AllUsers";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import ReportedItems from "../pages/Dashboard/ReportedItems";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/all-products',
                 element: <AllProducts/>,
+            },
+            {
+                path: '/dashboard/reported',
+                element: <ReportedItems/>,
             },
         ]
     }

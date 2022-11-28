@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GoVerified } from "react-icons/go";
+import { MdReport } from "react-icons/md";
 import BookingModal from "./BookingModal";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Category = ({ category, showSelectedCategory }) => {
+  const [exitsItem, setExitsItems] = useState({});
   const {
+    _id,
     name,
     image,
     productName,
@@ -14,8 +19,40 @@ const Category = ({ category, showSelectedCategory }) => {
     yearsOfUse,
     sellerName,
     verified,
-    postedTime,
+    time,
   } = category;
+
+  const handleReportItem = (id) => {
+    const reportedDetails = {
+      reportedProductId: id,
+      productName,
+      sellerName,
+      postedTime: time,
+    };
+
+    axios(`http://localhost:5000/reportedItems?reportedId=${id}`).then((data) =>
+      setExitsItems(data.data[0])
+    );
+
+    if (exitsItem) {
+      if (exitsItem?.reportedProductId !== id) {
+        fetch("http://localhost:5000/reportedItem", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(reportedDetails),
+        })
+          .then((res) => res.json())
+          .then(
+            (data) => data.acknowledged && toast.success("Your reported added")
+          );
+      } else {
+        toast.error("You already report this items");
+      }
+    }
+  };
+
   return showSelectedCategory ? (
     <div
       className={`shadow-lg rounded-md p-4 text-center cursor-pointer ${
@@ -59,10 +96,20 @@ const Category = ({ category, showSelectedCategory }) => {
               </p>
               {verified && <GoVerified className="text-blue-500" />}
             </div>
+            <div
+              className="flex items-center gap-2"
+              onClick={() => handleReportItem(_id)}
+            >
+              <MdReport className="text-red-500" />
+              <p className="text-lg underline text-red-500">
+                Reported to Admin
+              </p>
+            </div>
+
             {/* Button section */}
             <div className="flex items-center justify-between mt-8 ">
               <p className="text-lg">
-                Posted Date : <span className="font-bold">{postedTime}</span>
+                Posted : <span className="font-bold">{time}</span>
               </p>
               <label
                 htmlFor="booking_modal"
