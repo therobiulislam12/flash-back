@@ -3,10 +3,12 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthProvider";
+import useTitles from "../../hooks/useTitles";
 
 const AllProducts = () => {
   const [exitsItem, setExitsItems] = useState({});
   const { user } = useContext(AuthContext);
+  useTitles('All Products')
 
   const {
     data: products = [],
@@ -82,6 +84,8 @@ const AllProducts = () => {
       </div>
     );
   }
+
+
 
   return (
     <section className="px-12 py-8 ">

@@ -4,11 +4,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CheckoutForm from "../../components/CheckoutForm";
 import { Elements } from "@stripe/react-stripe-js";
+import useTitles from "../../hooks/useTitles";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 const Payment = () => {
   const [paymentDetails, setPaymentDetails] = useState({});
+
+  useTitles('Payment')
 
   const { id } = useParams();
 

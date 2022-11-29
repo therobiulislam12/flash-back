@@ -3,6 +3,7 @@ import { useContext } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
+import useTitles from "../../hooks/useTitles";
 
 const MyOrders = () => {
   const { user } = useContext(AuthContext);
@@ -33,6 +34,8 @@ const MyOrders = () => {
         }
       });
   };
+
+  useTitles('My Orders')
 
   if (loading) {
     return (

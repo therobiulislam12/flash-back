@@ -1,10 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import useTitles from "../../hooks/useTitles";
 
 const ReportedItems = () => {
   const [reportedItems, setReportedItems] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
+  useTitles('Reported Items')
 
   useEffect(() => {
     axios("https://flashback-zeta.vercel.app/reportedItems").then((reportedItems) => {

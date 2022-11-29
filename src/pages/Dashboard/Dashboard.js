@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../contexts/AuthProvider';
+import useTitles from '../../hooks/useTitles';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -12,6 +13,8 @@ const Dashboard = () => {
       setRole(user?.data[0]?.role.toUpperCase());
     });
   }, [user?.email]);
+
+  useTitles(role, 'Dashboard')
 
   return (
     <div>

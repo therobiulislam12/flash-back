@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import useTitles from "../../hooks/useTitles";
 
 const AllSeller = () => {
+
+  useTitles('All Sellers');
+  
   const {
     data: users = [],
     refetch,

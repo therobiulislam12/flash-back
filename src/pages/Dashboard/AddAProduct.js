@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthProvider";
+import useTitles from "../../hooks/useTitles";
 
 const AddAProduct = () => {
   const [loading, setLoading] = useState(false);
@@ -56,6 +57,8 @@ const AddAProduct = () => {
 
     reset();
   };
+
+  useTitles('Add A Product')
 
   return (
     <section className="px-6 rounded shadow-md py-12 max-w-md mx-auto bg-gray-100">
