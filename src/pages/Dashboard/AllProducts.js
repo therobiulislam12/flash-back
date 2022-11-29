@@ -16,7 +16,7 @@ const AllProducts = () => {
     queryKey: ["products"],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/products?email=${user?.email}`
+        `https://flashback-zeta.vercel.app/products?email=${user?.email}`
       );
       const data = await res.json();
       return data;
@@ -24,7 +24,7 @@ const AllProducts = () => {
   });
 
   const handleDeleteProduct = (id) => {
-    fetch(`http://localhost:5000/product/${id}`, {
+    fetch(`https://flashback-zeta.vercel.app/product/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -51,12 +51,12 @@ const AllProducts = () => {
     };
 
     axios(
-      `http://localhost:5000/advertisementItems?productId=${product._id}`
+      `https://flashback-zeta.vercel.app/advertisementItems?productId=${product._id}`
     ).then((data) => setExitsItems(data.data[0]));
 
     if (exitsItem) {
       if (exitsItem?.productId !== product._id) {
-        fetch("http://localhost:5000/advertiseItem", {
+        fetch("https://flashback-zeta.vercel.app/advertiseItem", {
           method: "POST",
           headers: {
             "content-type": "application/json",

@@ -12,7 +12,7 @@ const AdvertisementOrderModal = ({ product, setProduct, setAdvertisementItems, a
 
   // get user role
   useEffect(() => {
-    axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
+    axios(`https://flashback-zeta.vercel.app/users?email=${user?.email}`).then((user) => {
       setRole(user.data[0]?.role);
     });
   }, [user?.email]);
@@ -34,7 +34,7 @@ const AdvertisementOrderModal = ({ product, setProduct, setAdvertisementItems, a
       ...data,
     };
 
-    fetch(`http://localhost:5000/deleteAndPost?productId=${productId}`, {
+    fetch(`https://flashback-zeta.vercel.app/deleteAndPost?productId=${productId}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

@@ -12,7 +12,7 @@ const ProductCategories = () => {
 
   const [products, setProducts] = useState([]);
   useEffect(() =>{
-    fetch(`http://localhost:5000/products?category=${categoryName}`)
+    fetch(`https://flashback-zeta.vercel.app/products?category=${categoryName}`)
     .then(res => res.json())
     .then(data => setProducts(data))
   },[categoryName])

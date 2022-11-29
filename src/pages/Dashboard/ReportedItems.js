@@ -7,14 +7,14 @@ const ReportedItems = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios("http://localhost:5000/reportedItems").then((reportedItems) => {
+    axios("https://flashback-zeta.vercel.app/reportedItems").then((reportedItems) => {
       setReportedItems(reportedItems.data);
       setLoading(false);
     });
   }, []);
 
   const handleDeleteReported = (id) => {
-    fetch(`http://localhost:5000/reportedItem/${id}`, {
+    fetch(`https://flashback-zeta.vercel.app/reportedItem/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

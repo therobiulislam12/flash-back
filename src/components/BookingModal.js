@@ -12,7 +12,7 @@ const BookingModal = ({ category: product, setBookings }) => {
 
   // get user role
   useEffect(() => {
-    axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
+    axios(`https://flashback-zeta.vercel.app/users?email=${user?.email}`).then((user) => {
       setRole(user.data[0]?.role);
     });
   }, [user?.email]);
@@ -36,7 +36,7 @@ const BookingModal = ({ category: product, setBookings }) => {
       ...data,
     };
 
-    fetch("http://localhost:5000/buy", {
+    fetch("https://flashback-zeta.vercel.app/buy", {
       method: "POST",
       headers: {
         "content-type": "application/json",

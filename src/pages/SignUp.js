@@ -4,10 +4,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import useTitles from "../hooks/useTitles";
 import { useForm } from "react-hook-form";
+import { createAUserAndSaveDb } from "../utils/createAuserAndSaveUser";
 
 const SignUp = () => {
   const [passwordType, setPasswordType] = useState(true);
-  const { registerUser, setUser, updateUserProfile, signInGoogle, loading, user } =
+  const { registerUser, setUser, updateUserProfile, signInGoogle, loading } =
     useContext(AuthContext);
 
   // role state
@@ -24,12 +25,15 @@ const SignUp = () => {
     signInGoogle()
       .then((result) => {
         const user = result.user;
+        const {displayName, email} = user;
         setUser(user);
         toast.success("Google Login Success");
         navigate(from, { replace: true });
+        createAUserAndSaveDb(displayName, email)
       })
       .catch((err) => toast.error(err.message));
   };
+
 
   // react-hook-form use here
   const {
@@ -73,7 +77,7 @@ const SignUp = () => {
 
   // Save user in database
   const saveUser = (user) => {
-    fetch("http://localhost:5000/user", {
+    fetch("https://flashback-zeta.vercel.app/user", {
       method: "POST",
       headers: {
         "content-type": "application/json",

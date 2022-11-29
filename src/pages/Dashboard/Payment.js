@@ -13,7 +13,7 @@ const Payment = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    axios(`http://localhost:5000/orders/${id}`).then((order) =>
+    axios(`https://flashback-zeta.vercel.app/orders/${id}`).then((order) =>
       setPaymentDetails(order.data)
     );
   }, [id]);

@@ -63,7 +63,7 @@ const AuthProvider = ({ children }) => {
   // set role
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:5000/users?email=${user?.email}`)
+    fetch(`https://flashback-zeta.vercel.app/users?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setExitsUser(data);

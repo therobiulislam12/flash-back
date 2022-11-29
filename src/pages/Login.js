@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import ForgotPasswordModal from "../components/ForgotPasswordModal";
 import { AuthContext } from "../contexts/AuthProvider";
 import useTitles from "../hooks/useTitles";
+import { createAUserAndSaveDb } from "../utils/createAuserAndSaveUser";
 
 const Login = () => {
   const [passwordType, setPasswordType] = useState(true);
@@ -25,7 +26,9 @@ const Login = () => {
         const user = result.user;
         setUser(user);
         toast.success("Google Login Success");
+        const {displayName, email} = user;
         navigate(from, { replace: true });
+        createAUserAndSaveDb(displayName, email);
       })
       .catch((err) => toast.error(err.message));
   };

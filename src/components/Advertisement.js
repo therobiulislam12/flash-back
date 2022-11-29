@@ -8,7 +8,7 @@ const Advertisement = () => {
   const [product, setProduct] = useState({});
 
   useEffect(() => {
-    axios("http://localhost:5000/advertisementItems").then((advertisement) =>
+    axios("https://flashback-zeta.vercel.app/advertisementItems").then((advertisement) =>
       setAdvertisementItems(advertisement.data)
     );
   }, []);

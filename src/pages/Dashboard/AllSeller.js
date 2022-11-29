@@ -9,14 +9,14 @@ const AllSeller = () => {
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/users");
+      const res = await fetch("https://flashback-zeta.vercel.app/users");
       const data = await res.json();
       return data;
     },
   });
 
   const handleDeleteUser = (id) => {
-    fetch(`http://localhost:5000/user/${id}`, {
+    fetch(`https://flashback-zeta.vercel.app/user/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -29,7 +29,7 @@ const AllSeller = () => {
   };
 
   const handleVerifyUser = (email) =>{
-    fetch(`http://localhost:5000/userUpdate?email=${email}`, {
+    fetch(`https://flashback-zeta.vercel.app/userUpdate?email=${email}`, {
       method: "PUT"
     })
     .then(res => res.json())

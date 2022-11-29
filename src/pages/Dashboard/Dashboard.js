@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   // get user role
   useEffect(() => {
-    axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
+    axios(`https://flashback-zeta.vercel.app/users?email=${user?.email}`).then((user) => {
       setRole(user?.data[0]?.role.toUpperCase());
     });
   }, [user?.email]);

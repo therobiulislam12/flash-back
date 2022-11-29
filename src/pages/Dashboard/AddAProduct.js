@@ -13,7 +13,7 @@ const AddAProduct = () => {
 
   // get user role
   useEffect(() => {
-    axios(`http://localhost:5000/users?email=${user?.email}`).then((user) => {
+    axios(`https://flashback-zeta.vercel.app/users?email=${user?.email}`).then((user) => {
       setIsVerified(user.data[0]?.verified);
     });
   }, [user?.email]);
@@ -39,7 +39,7 @@ const AddAProduct = () => {
       }),
     };
 
-    fetch("http://localhost:5000/product", {
+    fetch("https://flashback-zeta.vercel.app/product", {
       method: "POST",
       headers: {
         "content-type": "application/json",

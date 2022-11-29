@@ -14,7 +14,7 @@ const MyOrders = () => {
     queryKey: ["users"],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/orders?email=${user?.email}`
+        `https://flashback-zeta.vercel.app/orders?email=${user?.email}`
       );
       const data = await res.json();
       return data;
@@ -22,7 +22,7 @@ const MyOrders = () => {
   });
 
   const handleDeleteOrder = (id) => {
-    fetch(`http://localhost:5000/orders/${id}`, {
+    fetch(`https://flashback-zeta.vercel.app/orders/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

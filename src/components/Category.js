@@ -30,13 +30,13 @@ const Category = ({ category, showSelectedCategory, setBookings }) => {
       postedTime: time,
     };
 
-    axios(`http://localhost:5000/reportedItems?reportedId=${id}`).then((data) =>
+    axios(`https://flashback-zeta.vercel.app/reportedItems?reportedId=${id}`).then((data) =>
       setExitsItems(data.data[0])
     );
 
     if (exitsItem) {
       if (exitsItem?.reportedProductId !== id) {
-        fetch("http://localhost:5000/reportedItem", {
+        fetch("https://flashback-zeta.vercel.app/reportedItem", {
           method: "POST",
           headers: {
             "content-type": "application/json",
