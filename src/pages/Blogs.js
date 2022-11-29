@@ -3,8 +3,10 @@ import state from "../assets/state.webp";
 import Prtotypical from "../assets/prototypical.png";
 import UnitTest from "../assets/unit_testing.png";
 import Angular from "../assets/hero.png";
+import useTitles from "../hooks/useTitles";
 
 const Blogs = () => {
+  useTitles('Blogs')
   return (
     <div className="container mx-auto py-12 lg:py-20">
       <div className="grid gap-4 lg:gap-6 grid-cols-1 md:grid-cols-2">
